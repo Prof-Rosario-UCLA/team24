@@ -4,6 +4,7 @@ import { waypoints } from './Waypoints.jsx';
 import { placementSelectData } from './PlacementData.jsx';
 import { findArrowIndex } from './ArrowAngles.jsx';
 import { Coin, Heart, Skull } from './Icons';
+import Progress from "./Progress.jsx"
 
 // CANVAS MUST BE 768X512 FOR MAP SIZE
 const MAP_WIDTH = 24; // 24 tiles wide
@@ -703,7 +704,7 @@ export default function GameCanvas({ username }) {
         width: "100vw",
         background: "#222",
         display: "flex",
-        flexDirection: "column", // ✅ STACK canvas and progress vertically
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
         paddingTop: "32px", // optional spacing above canvas
@@ -756,6 +757,7 @@ export default function GameCanvas({ username }) {
               <button id="game-over-desc" className="restart-button" onClick={() => window.location.reload()}>
                 Restart Game
               </button>
+              <Progress />
             </div>
           </div>
         )}
