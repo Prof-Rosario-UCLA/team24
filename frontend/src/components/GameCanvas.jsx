@@ -32,11 +32,26 @@ export default function GameCanvas({ username }) {
   const [wave, setWave] = useState(0);
   const waveRef = useRef(0);
 
+  const wasmHealth = {
+    scale_health: (wave) => {console.warn("WASM not loaded, fallback"); return 60 + Math.max(0, 5 * (wave - 5));},
+  };
+
   useEffect(() => {
     startedRef.current = started;
   }, [started]);
 
   const imageLoaded = useRef(false); // ref to see if background img loaded.
+
+  useEffect(() => {
+    fetch("/release.wasm")
+      .then((res) => res.arrayBuffer())
+      .then((bytes) => WebAssembly.instantiate(bytes))
+      .then((result) => {
+        wasmHealth.scale_health = result.instance.exports.scale_health;
+        console.log("WASM + Assembly module loaded successfully! Wave 7: ", wasmHealth.scale_health(7));
+      })
+      .catch((err) => console.error("Failed to load WASM + Assembly:", err));
+  }, []);
 
   // === FRAMERATE CHECKER === // 
   useEffect(() => {
@@ -242,7 +257,7 @@ export default function GameCanvas({ username }) {
           y: this.position.y + this.height / 2
         };
         this.radius = 25;
-        this.maxHealth = 60 + Math.max(0, 5 * (waveRef.current - 5));
+        this.maxHealth = wasmHealth.scale_health(waveRef.current);
         this.health = this.maxHealth;
         this.velocity = {
           x: 0,
