@@ -38,19 +38,12 @@ export default function App({ username: propUsername, setInputUsername }) {
 
   return (
     <div>
-      <div style={{ backgroundColor: "#222", padding: "12px 0" }}>
+      <div style={{ backgroundColor: "#222", padding: "0px 0" }}>
         <header className="logo-header">IRONKEEP</header>
-      </div>
-      <div style={{ padding: "8px", background: "#222", color: "#fff" }}>
-        Logged in as: {username}
       </div>
 
       <div className="canvas-leaderboard-container">
         <GameCanvas username={username} />
-    <div className="progress-wrapper" style={{ marginTop: '-280px' }}>
-
-          <Progress />
-        </div>
       </div>
     </div>
   );

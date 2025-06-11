@@ -757,7 +757,7 @@ export default function GameCanvas({ username }) {
               <button id="game-over-desc" className="restart-button" onClick={() => window.location.reload()}>
                 Restart Game
               </button>
-              <Progress />
+              <Progress/>
             </div>
           </div>
         )}

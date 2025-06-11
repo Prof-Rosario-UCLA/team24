@@ -231,10 +231,11 @@ button:focus-visible {
 
 /* Covers the entire 768×512 canvas-container with a translucent black layer */
 .game-over-overlay {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;    /* full width of canvas-container */
+  height: 100%;
   inset: 0;   /* full height of canvas-container */
   background: rgba(0, 0, 0, 5);
   display: flex;
@@ -314,6 +315,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  -webkit-text-stroke: 0;
 }
 
 .leaderboard-title {
@@ -350,7 +352,7 @@ button:focus-visible {
   align-items: flex-start;
   justify-content: center;
   gap: 16px;
-  padding: 16px 0;
+  padding: 0px 0;
   flex-wrap: wrap;
   width: 100%;
 }
