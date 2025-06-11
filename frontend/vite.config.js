@@ -35,14 +35,14 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            urlPattern: "/\/reconnecting/",
+            urlPattern: /\/reconnecting/,
             handler: "NetworkFirst",
             options: {
               cacheName: "html-cache"
             }
           },
           {
-            urlPattern: "/\/api/",
+            urlPattern: /\/api\//,
             handler: "NetworkOnly",
           }
         ]

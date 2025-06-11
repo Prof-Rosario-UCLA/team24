@@ -242,7 +242,7 @@ export default function GameCanvas({ username }) {
           y: this.position.y + this.height / 2
         };
         this.radius = 25;
-        this.maxHealth = 60;
+        this.maxHealth = 60 + (5 * waveRef.current);
         this.health = this.maxHealth;
         this.velocity = {
           x: 0,
