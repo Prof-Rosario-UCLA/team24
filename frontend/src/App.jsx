@@ -47,7 +47,8 @@ export default function App({ username: propUsername, setInputUsername }) {
 
       <div className="canvas-leaderboard-container">
         <GameCanvas username={username} />
-       <div class="progress-wrapper" style="margin-top: -280px;">
+    <div className="progress-wrapper" style={{ marginTop: '-280px' }}>
+
           <Progress />
         </div>
       </div>
