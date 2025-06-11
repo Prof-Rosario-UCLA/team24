@@ -40,6 +40,10 @@ export default defineConfig({
             options: {
               cacheName: "html-cache"
             }
+          },
+          {
+            urlPattern: "/\/api/",
+            handler: "NetworkOnly",
           }
         ]
       }
