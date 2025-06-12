@@ -33,7 +33,7 @@ export default function GameCanvas({ username }) {
   const waveRef = useRef(0);
 
   const wasmHealth = {
-    scale_health: (wave) => {console.warn("WASM not loaded, fallback"); return 60 + Math.max(0, 5 * (wave - 5));},
+    scale_health: (wave) => {console.warn("WASM not loaded, fallback"); return 60 + Math.max(0, 10 * (wave - 5));},
   };
 
   useEffect(() => {
