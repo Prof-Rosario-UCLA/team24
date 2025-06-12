@@ -2,7 +2,8 @@
 This application is a MERN full-stack logic-shooter game where players will have to decide where to place their shooters so they can attack their enemies and deduct off their life-span before the enemies escape alive. We used React+Vite on the frontend, Node, on the backend, Express for our api endpoints, and a ODM, Mongodb for our database along with Redis for caching. Other features such as PWA, Bycrypt, Cookies, and JWT is also used. Both frondend and backend have their respective Dockerfiles and Kubernetes manifests.
 ![image](https://github.com/user-attachments/assets/a1f49055-7607-42df-ae41-8a2cd3508990)
 
-## Deployment
+## Testing on Local (not recommended)
+Here are instructions to run our app locally. Note that the current codebase is tailored towards GKE deployment, so not all functionality will work.
 
 ### Setup
 
@@ -28,23 +29,70 @@ Run this on both backend and frontend directories
 npm install
  ```
 ### 4. Local Run
-For local run, run 'npx vite' in the frontend and 'npm start' in the backend. Go to the link that npx vite takes you too. 
+For local run, run 'npx vite' in the frontend and 'npm start' in the backend. Go to the link that npx vite takes you too. Note - communication between the frontend and backend do not seem to work for localhost, only on GKE deployment.
 
-### 5. Deployment Run
-Build the docker images
-cd backend
-docker build -t team24-backend .
+## Deploying on Google Kubernetes Engine
+### Option 1
+In cloudbuid.yaml, the commands have to be updated with a new cluster, artifact repo, region, and log bucket. GKE complained when we did not have a log bucket, so you should also create a log bucket for this.
+In every tag and push command, change the region, cluster, and artifact repo name. Here are some lines from cloudbuild.yaml. 
+Note that this is not an exhaustive list of all the lines that need changing.
+```bash
+args: ['build', '-t', '<ARTIFACT_REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/frontend:latest', './frontend']
+- 'CLOUDSDK_COMPUTE_REGION=<CLUSTER_REGION>'
+- 'CLOUDSDK_CONTAINER_CLUSTER=<CLUSTER_NAME>'
+'<ARTIFACT_REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/frontend:latest'
+logsBucket: gs://<LOG_BUCKET_NAME>
+args: ['rollout', 'restart', 'deployment/game']
+```
+
+Kubernetes secret must be created. Run the following command in GKE, naming the secret game-secrets and obtaining the MONGO_URI and JWT_SECRET values from our project report.
+```bash
+kubectl create secret generic game-secrets \
+  --from-literal=MONGO_URI=<mongo_uri> \
+  --from-literal=JWT_SECRET=<jwt_secret>
+```
+
+In GKE, create a cloud build trigger. Beyond the default settings, connect the Git repository and branch that you wish to set up CI/CD with, and select Cloud Build cnofiguration file (yaml or json) for Configuration Type selection. For choosing the service account, make sure that the service account has the necessary permissions to read and write to the Artifact Registry.
+![image](https://github.com/user-attachments/assets/aa685343-50c1-4ece-bb46-8812a74decc9)
+
+Now, when you commit to the repository, a build should be triggered in GKE!
+
+### Option 2
+Connect to the GKE cluster and clone the repository in there. 
+Build the docker images.
 
 ```bash
 cd backend
-docker build -t team24-backend .
+docker buildx build -t team24-backend .
  ```
 
 ```bash
 cd ../frontend
-docker build -t team24-frontend .
+docker buildx build -t team24-frontend .
+cd ..
  ```
 Make sure to tag and push these images.
+
+```bash
+docker tag frontend <REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/frontend:latest
+docker tag backend <REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/backend:latest
+docker push <REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/frontend:latest
+docker push <REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/backend:latest
+```
+
+Kubernetes secret must be created. Run the following command in GKE, naming the secret game-secrets and obtaining the MONGO_URI and JWT_SECRET values from our project report.
+```bash
+kubectl create secret generic game-secrets \
+  --from-literal=MONGO_URI=<mongo_uri> \
+  --from-literal=JWT_SECRET=<jwt_secret>
+```
+If this is troublesome, simply hardcoding the two environmental variables into k8s/deployment.yaml will work.
+```bash
+- name: MONGO_URI
+  value: <mongo_uri>
+- name: JWT_SECRET
+  value: <jwt_secret>
+```
 
 ```bash
 Apply the manifest yaml files
@@ -54,7 +102,7 @@ kubectl apply -f k8s/service.yaml
 kubectl apply -f k8s/frontendconfig.yaml
 kubectl apply -f k8s/ingress.yaml
  ```
-
+Now, the app should be deployed and reachable at https://team24.cs144.org
 
 ## API Endpoints 
 * note: The example responses shown are for illustration only. Actual responses may vary depending on the current state of the database. Please use your own VALID data when testing the endpoints.
