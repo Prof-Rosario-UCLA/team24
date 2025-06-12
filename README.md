@@ -54,14 +54,7 @@ kubectl apply -f k8s/ingress.yaml
 ## API Endpoints 
 * note: The example responses shown are for illustration only. Actual responses may vary depending on the current state of the database. Please use your own VALID data when testing the endpoints.
   
-1. View Avatar Name - Get the avatar name of a player by username.  
-Endpoint: GET /api/auth/viewavatarname/:username  
-Example: /api/auth/viewavatarname/test1
-
-```bash
-"Dragonball"
- ```
-2. Check Password Hash - Check if a user's password is hashed (bcrypt).
+Check Password Hash - Check if a user's password is hashed (bcrypt).
 Endpoint: GET /api/auth/check-password-hash/:username
 Example: /api/auth/check-password-hash/test1
 
@@ -72,45 +65,7 @@ Example: /api/auth/check-password-hash/test1
 }
 ```
 
-
-3. Assign Avatar Name - Assign or update the avatar name for a player.
-Endpoint: POST /api/auth/assignavatarname/:username/:avatarname
-Example: /api/auth/assignavatarname/test1/Dragonball
- ```bash
-{
-  "message": "Avatar Name Assigned"
-}
-```
-
-4. User Signup - Register a new user with username, password, and email.
-Endpoint: POST /api/auth/signup
-Example request body:
-```bash
-{
-  "username": "test1",
-  "password": "mypassword123",
-  "email": "test1@example.com"
-}
-```
-
-```bash
-{
-  "message": "User registered successfully"
-}
-```
-
-5. Get Authenticated User Info - Get username and avatarname of logged-in user via cookie token.
-Endpoint: GET /api/auth/me
-
-Example response:
-```bash
-{
-  "username": "test1",
-  "avatarname": "Dragonball"
-}
-```
-
-6. User Login - Login user with username and password, returns auth cookie.
+User Login - Login user with username and password, returns auth cookie.
 Endpoint: POST /api/auth/login
 Example request body:
 
@@ -125,7 +80,7 @@ Example request body:
   "message": "Logged in"
 }
 ```
-7. User Logout - Logout user by clearing the auth cookie.
+User Logout - Logout user by clearing the auth cookie.
 Endpoint: POST /api/auth/logout
 Example response:
 
@@ -135,7 +90,7 @@ bash{
 }
 ```
 
-8. View Game Progress by Username - Retrieve game progress details for a player, cached via Redis.
+View Game Progress by Username - Retrieve game progress details for a player, cached via Redis.
 Endpoint: GET /api/gameprogress/viewGameProgress/:username
 Example: /api/gameprogress/viewGameProgress/test1
 
@@ -155,47 +110,8 @@ bash {
   }
 }
  ```
-9. Create Game Progress for User - Create initial game progress for a user with time played, level finished, and total points. Fails if progress already exists.
-Endpoint: POST /api/gameprogress/setGameProgress/:username/:timePlayed/:levelfinished/:totalpoints
-Example: /api/gameprogress/setGameProgress/test1/3600/5/5000
 
-```
-
-bash {
-  "message": "GameProgress created",
-  "progress": {
-    "gamer": "60a...",
-    "lastlogin": "2025-06-11T18:24:43.511Z",
-    "timePlayed": 3600,
-    "progress": {
-      "levelFinished": 5,
-      "totalPoints": 5000
-    }
-  }
-}
-```
-
-10. Update Game Progress - Update game progress or create new if none exists for a user.
-Endpoint: POST /api/gameprogress/updateProgress/:username/:waveCounter
-Example: /api/gameprogress/updateProgress/test1/3
-
-```
-bash {
-  "message": "Progress saved or created",
-  "progress": {
-    "gamer": "60a...",
-    "timePlayed": 3600,
-    "progress": {
-      "levelFinished": 3,
-      "totalPoints": 3000
-    },
-    "lastlogin": "2025-06-11T18:24:43.511Z"
-  }
-}
-```
-
-
-11. View Progress for All Users - Get top 5 players' progress sorted by level finished.
+View Progress for All Users - Get top 5 players' progress sorted by level finished.
 Endpoint: GET /api/gameprogress/viewPlayerProgressAll
 Example response:
 
