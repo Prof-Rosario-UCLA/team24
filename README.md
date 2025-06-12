@@ -93,9 +93,8 @@ If this is troublesome, simply hardcoding the two environmental variables into k
 - name: JWT_SECRET
   value: <jwt_secret>
 ```
-
+Apply the manifest yaml files.
 ```bash
-Apply the manifest yaml files
 kubectl apply -f k8s/certificate.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
