@@ -34,7 +34,7 @@ For local run, run 'npx vite' in the frontend and 'npm start' in the backend. Go
 ## Deploying on Google Kubernetes Engine
 ### Option 1
 In cloudbuid.yaml, the commands have to be updated with a new cluster, artifact repo, region, and log bucket. GKE complained when we did not have a log bucket, so you should also create a log bucket for this.
-In every tag and push command, change the region, cluster, and artifact repo name. Here are some lines from cloudbuild.yaml. 
+In every relevant command, change the region, cluster, artifact repo, and log bucket name. Here are some lines from cloudbuild.yaml. 
 Note that this is not an exhaustive list of all the lines that need changing.
 ```bash
 args: ['build', '-t', '<ARTIFACT_REGION>-docker.pkg.dev/<CLUSTER_NAME>/<ARTIFACT_REPO_NAME>/frontend:latest', './frontend']
