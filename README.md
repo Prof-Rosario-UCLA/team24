@@ -76,7 +76,8 @@ Example: /api/auth/check-password-hash/test1
 3. Assign Avatar Name - Assign or update the avatar name for a player.
 Endpoint: POST /api/auth/assignavatarname/:username/:avatarname
 Example: /api/auth/assignavatarname/test1/Dragonball
- ```bash {
+ ```bash
+{
   "message": "Avatar Name Assigned"
 }
 ```
@@ -84,14 +85,16 @@ Example: /api/auth/assignavatarname/test1/Dragonball
 4. User Signup - Register a new user with username, password, and email.
 Endpoint: POST /api/auth/signup
 Example request body:
-```bash {
+```bash
+{
   "username": "test1",
   "password": "mypassword123",
   "email": "test1@example.com"
 }
 ```
 
-```bash {
+```bash
+{
   "message": "User registered successfully"
 }
 ```
@@ -100,7 +103,8 @@ Example request body:
 Endpoint: GET /api/auth/me
 
 Example response:
-```bash {
+```bash
+{
   "username": "test1",
   "avatarname": "Dragonball"
 }
@@ -110,12 +114,14 @@ Example response:
 Endpoint: POST /api/auth/login
 Example request body:
 
-```bash {
+```bash
+{
   "username": "test1",
   "password": "mypassword123"
 }
 ```
-```bash {
+```bash
+{
   "message": "Logged in"
 }
 ```
@@ -123,7 +129,8 @@ Example request body:
 Endpoint: POST /api/auth/logout
 Example response:
 
-```bash{
+```
+bash{
   "message": "Logged out"
 }
 ```
@@ -132,7 +139,8 @@ Example response:
 Endpoint: GET /api/gameprogress/viewGameProgress/:username
 Example: /api/gameprogress/viewGameProgress/test1
 
-```bash {
+```
+bash {
   "_id": "60a...",
   "gamer": {
     "_id": "60a...",
@@ -151,7 +159,9 @@ Example: /api/gameprogress/viewGameProgress/test1
 Endpoint: POST /api/gameprogress/setGameProgress/:username/:timePlayed/:levelfinished/:totalpoints
 Example: /api/gameprogress/setGameProgress/test1/3600/5/5000
 
-```bash {
+```
+
+bash {
   "message": "GameProgress created",
   "progress": {
     "gamer": "60a...",
@@ -169,7 +179,8 @@ Example: /api/gameprogress/setGameProgress/test1/3600/5/5000
 Endpoint: POST /api/gameprogress/updateProgress/:username/:waveCounter
 Example: /api/gameprogress/updateProgress/test1/3
 
-```bash {
+```
+bash {
   "message": "Progress saved or created",
   "progress": {
     "gamer": "60a...",
@@ -189,7 +200,8 @@ Endpoint: GET /api/gameprogress/viewPlayerProgressAll
 Example response:
 
 
-```bash [
+```
+bash [
   {
     "username": "test1",
     "levelFinished": 5,
