@@ -32,7 +32,7 @@ npm install
 For local run, run 'npx vite' in the frontend and 'npm start' in the backend. Go to the link that npx vite takes you too. Note - communication between the frontend and backend do not seem to work for localhost, only on GKE deployment.
 
 ## Deploying on Google Kubernetes Engine
-### Option 1
+### Option 1 - CI/CD with Cloud Build Trigger
 In cloudbuild.yaml, the commands have to be updated with a new cluster, artifact repo, region, and log bucket. GKE complained when we did not have a log bucket, so you should also create a log bucket for this.
 In every relevant command, change the region, cluster, artifact repo, and log bucket name. Here are some lines from cloudbuild.yaml. 
 Note that this is not an exhaustive list of all the lines that need changing.
@@ -57,7 +57,7 @@ In GKE, create a cloud build trigger. Beyond the default settings, connect the G
 
 Now, when you commit to the repository, a build should be triggered in GKE!
 
-### Option 2
+### Option 2 - Manual Deployment
 Connect to the GKE cluster and clone the repository in there. 
 Build the docker images.
 
