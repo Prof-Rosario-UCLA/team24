@@ -18,7 +18,6 @@ Create a .env file in the root of the project and add the following environment 
 ```bash
 MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<dbname>?retryWrites=true&w=majority
 JWT_SECRET=<jwt>
-PORT=3000
  ```
 
 #### 3. Install Dependencies
@@ -32,14 +31,14 @@ npm install
 For local run, run 'npx vite' in the frontend and 'npm start' in the backend. Go to the link that npx vite takes you too. 
 
 ### 5. Deployment Run
+Build the docker images
+cd backend
+docker build -t team24-backend .
 
-For CI/CD, add the following Github Secrets : 
-```bash
+cd ../frontend
+docker build -t team24-frontend .
 
- ```
-```bash
-docker build -t gcr.io/<your-project-id>/team24-app .
-docker push gcr.io/<your-project-id>/team24-app
+Make sure to tag and push these images.
  ```
 ```bash
 Apply the manifest yaml files
