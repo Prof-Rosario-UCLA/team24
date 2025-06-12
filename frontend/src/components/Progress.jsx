@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Leaderboard = () => {
   const [players, setPlayers] = useState([]);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const fetchData = () => {
     fetch('/api/gameProgress/viewPlayerProgressAll')
@@ -18,7 +19,16 @@ const Leaderboard = () => {
 
     const interval = setInterval(fetchData, 30000);
 
-    return () => clearInterval(interval);
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
+    };
   }, []);
 
   if (!players.length) return null;
@@ -26,6 +36,11 @@ const Leaderboard = () => {
   return (
     <div className="leaderboard-box">
       <h2 className="leaderboard-title">Leaderboard</h2>
+      {!isOnline && (
+        <p style={{ color: 'gray', fontStyle: 'italic', marginBottom: '10px' }}>
+          You're offline — trying to fetch leaderboard data…
+        </p>
+      )}
       <ul className="leaderboard-list">
         {players.map(({ username, levelFinished, timePlayed }, index) => (
           <li key={username} className="leaderboard-entry">

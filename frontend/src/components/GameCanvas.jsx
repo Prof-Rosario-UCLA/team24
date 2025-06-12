@@ -31,6 +31,7 @@ export default function GameCanvas({ username }) {
   const frameRateRatioRef = useRef(1); // VERY IMPORTANT VARIABLE. SETS SPEED DEPENDING ON REFRESH RATE
   const [wave, setWave] = useState(0);
   const waveRef = useRef(0);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const wasmHealth = {
     scale_health: (wave) => {console.warn("WASM not loaded, fallback"); return 60 + Math.max(0, 10 * (wave - 5));},
@@ -41,6 +42,19 @@ export default function GameCanvas({ username }) {
   }, [started]);
 
   const imageLoaded = useRef(false); // ref to see if background img loaded.
+
+  useEffect(() => {
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  }, []);
 
   useEffect(() => {
     fetch("/release.wasm")
@@ -726,6 +740,23 @@ export default function GameCanvas({ username }) {
         paddingBottom: "32px", // optional spacing below
       }}
     >
+      {!isOnline && (
+        <div style={{
+          position: "fixed",
+          top: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          backgroundColor: "#ffcccc",
+          color: "#700",
+          padding: "10px 20px",
+          borderRadius: "8px",
+          boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+          zIndex: 1000,
+          fontWeight: "bold"
+        }}>
+          You're offline — some features may be limited.
+        </div>
+      )}
       <div
         className="canvas-wrapper"
         style={{
