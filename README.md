@@ -35,11 +35,17 @@ Build the docker images
 cd backend
 docker build -t team24-backend .
 
+```bash
+cd backend
+docker build -t team24-backend .
+ ```
+
+```bash
 cd ../frontend
 docker build -t team24-frontend .
-
-Make sure to tag and push these images.
  ```
+Make sure to tag and push these images.
+
 ```bash
 Apply the manifest yaml files
 kubectl apply -f k8s/certificate.yaml
@@ -129,19 +135,8 @@ bash [
   }
 ]
 ```
+![cnm0932t](https://github.com/user-attachments/assets/c369bbbe-b9bb-42f3-b973-0e403c368f01)
 
-![image](https://github.com/user-attachments/assets/90995fad-5c6f-4ffb-97c2-f778c6215aed)
-
-
-
-Example: /api/auth/check-password-hash/test1
-# TO RUN THE TEST SERVER(S)
-1. (First time only): Create .env with variables provided for database in /backend/
-2. Open /backend/ in a terminal, and run 'npm start' 
-3. Open /frontend/ in a separate terminal, and run 'npx vite' or 'npx run dev' on port 5173
-4. Test Login is:
-- User: testuser3
-- Password: test3 
 
 # TO PLAY THE GAME
 - Each Grass platform is an available spot to place a 2x2 tower on. 
